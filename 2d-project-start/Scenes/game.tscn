@@ -1,0 +1,75 @@
+[gd_scene load_steps=5 format=3 uid="uid://eqqw1bqa101g"]
+
+[ext_resource type="PackedScene" uid="uid://fdn5jg4vdo8h" path="res://Scenes/Player.tscn" id="1_chwcj"]
+[ext_resource type="Script" path="res://Scripts/game.gd" id="1_typne"]
+[ext_resource type="PackedScene" uid="uid://du247reg21v6w" path="res://Scenes/trees.tscn" id="2_dg8uy"]
+
+[sub_resource type="Curve2D" id="Curve2D_ucuqm"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -1366, -883, 0, 0, 0, 0, 1354, -893, 0, 0, 0, 0, 1361, 723, 0, 0, 0, 0, -1374, 731, 0, 0, 0, 0, -1368, -887)
+}
+point_count = 5
+
+[node name="Game" type="Node2D"]
+y_sort_enabled = true
+position = Vector2(1054, 597)
+script = ExtResource("1_typne")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -128
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = -0.0645833
+anchor_top = -0.0675926
+anchor_right = -0.0645833
+anchor_bottom = -0.0675926
+offset_left = -111.0
+offset_top = -60.0
+offset_right = 2179.0
+offset_bottom = 1184.0
+color = Color(0.157739, 0.823694, 0.647113, 0.960784)
+metadata/_edit_use_anchors_ = true
+
+[node name="Wavedisplay" type="Label" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_right = 440.0
+offset_bottom = 153.0
+theme_override_font_sizes/font_size = 51
+text = "Wave 01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Player" parent="." instance=ExtResource("1_chwcj")]
+
+[node name="Path2D" type="Path2D" parent="Player"]
+position = Vector2(-56.0884, -8.96295)
+scale = Vector2(0.832541, 0.815271)
+curve = SubResource("Curve2D_ucuqm")
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Player/Path2D"]
+unique_name_in_owner = true
+position = Vector2(122.129, 726.624)
+rotation = 3.13867
+progress = 5574.92
+
+[node name="tree" parent="." instance=ExtResource("2_dg8uy")]
+position = Vector2(-332, -38)
+
+[node name="tree2" parent="." instance=ExtResource("2_dg8uy")]
+position = Vector2(-71, -176)
+
+[node name="tree3" parent="." instance=ExtResource("2_dg8uy")]
+position = Vector2(94, 211)
+
+[node name="tree4" parent="." instance=ExtResource("2_dg8uy")]
+position = Vector2(-224, 244)
+
+[node name="WaveTimer" type="Timer" parent="."]
+wait_time = 60.0
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="timeout" from="WaveTimer" to="." method="_on_wave_timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

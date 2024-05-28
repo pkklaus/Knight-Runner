@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://fdn5jg4vdo8h"]
+
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_7d6u6"]
+[ext_resource type="PackedScene" uid="uid://pbmyh1qru7p" path="res://Assets/characters/happy_boo/happy_boo.tscn" id="1_h13jo"]
+[ext_resource type="PackedScene" uid="uid://dqykjtd54x5se" path="res://Scenes/wapon.tscn" id="3_lvti0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ay0d8"]
+radius = 22.6493
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_h6jti"]
+radius = 20.025
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d2qiu"]
+bg_color = Color(0.461936, 0.14612, 0.0608972, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ohxq5"]
+bg_color = Color(0.605319, 0.699919, 0, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_7d6u6")
+
+[node name="HappyBoo" parent="." instance=ExtResource("1_h13jo")]
+position = Vector2(0.531603, 2.3573)
+scale = Vector2(0.513374, 0.513374)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(5.60284e-06, -5)
+scale = Vector2(0.750576, 0.750576)
+shape = SubResource("CircleShape2D_ay0d8")
+
+[node name="Wapon" parent="." instance=ExtResource("3_lvti0")]
+position = Vector2(0, -20)
+
+[node name="HurtBox" type="Area2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, -17)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+position = Vector2(0, 12)
+shape = SubResource("CircleShape2D_h6jti")
+debug_color = Color(0.705787, 0.486668, 0.117664, 0.42)
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.5
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+offset_left = -112.0
+offset_top = -82.0
+offset_right = 111.0
+offset_bottom = -55.0
+theme_override_styles/background = SubResource("StyleBoxFlat_d2qiu")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ohxq5")
+value = 100.0
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-112, -82)
+zoom = Vector2(0.5, 0.5)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
